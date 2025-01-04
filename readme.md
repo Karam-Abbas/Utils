@@ -1,8 +1,9 @@
 # PDF Form Filler and Invoice Generator
 
-This project provides functionality to fill PDF forms and generate invoices using Node.js, Python and the pdf-lib library.
+This repo provides some prebuilt functions for the ease in future.
 
 ## Features
+- Some prebuilt functions so, redundant code writing time can be reduced.
 
 ### JavaScript Implementation
 - Fill existing PDF forms with custom data
@@ -11,11 +12,13 @@ This project provides functionality to fill PDF forms and generate invoices usin
 - Support for different fonts and text styling
 
 ### Python Implementation
-- PDF form filling capabilities
-- Data extraction from PDF forms
-- Custom field mapping support
+- DH Transformation Matrix calculation
+- Homogeneous matrix multiplication
+- General matrix multiplication
+- Matrix normalization
 
 ## Installation
+- No need to install just download and use the files.
 
 ### JavaScript Setup
 1. Clone this repository
