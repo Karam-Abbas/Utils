@@ -11,63 +11,64 @@ const DnDCalendar = withDragAndDrop(Calendar);
 
 export default function ScheduleCalendar({
   color = "light",
-  title = "Scheduler",
+  title = "Scheduler", events= [] ,
 }) {
-  const [events, setEvents] = useState([
-    {
-      id: 1,
-      title: "Event 1",
-      start: new Date(2025, 0, 1, 10, 0, 0),
-      end: new Date(2025, 0, 1, 11, 0, 0),
-      present: true,
-    },
-    {
-      id: 2,
-      title: "Event 2",
-      start: new Date(2025, 0, 2, 13, 0, 0),
-      end: new Date(2025, 0, 2, 14, 0, 0),
-      present: false,
-    },
-    {
-      id: 3,
-      title: "Event 3",
-      start: new Date(2025, 0, 13, 9, 0, 0),
-      end: new Date(2025, 0, 13, 10, 0, 0),
-      present: null,
-    },
-    {
-      id: 4,
-      title: "Event 4",
-      subtitle: "New Event",
-      start: new Date(2025, 0, 14, 10, 0, 0),
-      end: new Date(2025, 0, 14, 11, 0, 0),
-      present: null,
-    },
-    {
-      id: 5,
-      title: "Event 5",
-      subtitle: "New Event",
-      start: new Date(2025, 0, 14, 11, 0, 0),
-      end: new Date(2025, 0, 14, 12, 0, 0),
-      present: null,
-    },
-    {
-      id: 6,
-      title: "Event 6",
-      subtitle: "New Event",
-      start: new Date(2025, 0, 14, 12, 0, 0),
-      end: new Date(2025, 0, 14, 13, 0, 0),
-      present: null,
-    },
-    {
-      id: 7,
-      title: "Event 7",
-      subtitle: "New Event",
-      start: new Date(2025, 0, 14, 13, 0, 0),
-      end: new Date(2025, 0, 14, 14, 0, 0),
-      present: null,
-    },
-  ]);
+  // Events format
+  // const [events, setEvents] = useState([
+  //   {
+  //     id: 1,
+  //     title: "Event 1",
+  //     start: new Date(2025, 0, 1, 10, 0, 0),
+  //     end: new Date(2025, 0, 1, 11, 0, 0),
+  //     present: true,
+  //   },
+  //   {
+  //     id: 2,
+  //     title: "Event 2",
+  //     start: new Date(2025, 0, 2, 13, 0, 0),
+  //     end: new Date(2025, 0, 2, 14, 0, 0),
+  //     present: false,
+  //   },
+  //   {
+  //     id: 3,
+  //     title: "Event 3",
+  //     start: new Date(2025, 0, 13, 9, 0, 0),
+  //     end: new Date(2025, 0, 13, 10, 0, 0),
+  //     present: null,
+  //   },
+  //   {
+  //     id: 4,
+  //     title: "Event 4",
+  //     subtitle: "New Event",
+  //     start: new Date(2025, 0, 14, 10, 0, 0),
+  //     end: new Date(2025, 0, 14, 11, 0, 0),
+  //     present: null,
+  //   },
+  //   {
+  //     id: 5,
+  //     title: "Event 5",
+  //     subtitle: "New Event",
+  //     start: new Date(2025, 0, 14, 11, 0, 0),
+  //     end: new Date(2025, 0, 14, 12, 0, 0),
+  //     present: null,
+  //   },
+  //   {
+  //     id: 6,
+  //     title: "Event 6",
+  //     subtitle: "New Event",
+  //     start: new Date(2025, 0, 14, 12, 0, 0),
+  //     end: new Date(2025, 0, 14, 13, 0, 0),
+  //     present: null,
+  //   },
+  //   {
+  //     id: 7,
+  //     title: "Event 7",
+  //     subtitle: "New Event",
+  //     start: new Date(2025, 0, 14, 13, 0, 0),
+  //     end: new Date(2025, 0, 14, 14, 0, 0),
+  //     present: null,
+  //   },
+  // ]);
 
   const [selectedEvents, setSelectedEvents] = useState([]);
   const [selectedDate, setSelectedDate] = useState(null);
@@ -302,33 +303,7 @@ export default function ScheduleCalendar({
   };
 
   return (
-    <div
-      className={
-        "relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded " +
-        (color === "light" ? "bg-white" : "bg-lightBlue-900 text-white")
-      }
-    >
-      <div className="rounded-t mb-0 px-4 py-3 border-0">
-        <div className="flex flex-wrap items-center justify-between">
-          <div className="relative w-full max-w-full flex-grow flex-1">
-            <h3
-              className={
-                "font-semibold text-lg " +
-                (color === "light" ? "text-blueGray-700" : "text-white")
-              }
-            >
-              {title}
-            </h3>
-          </div>
-          {selectedDate && (
-            <div className="text-sm text-blue-500">
-              Click another date to move events from{" "}
-              {selectedDate.format("MMM DD, YYYY")}
-            </div>
-          )}
-        </div>
-      </div>
-      <div className="px-4 pb-4" style={{ height: "80vh" }}>
+      <>
         <DnDCalendar
           localizer={localizer}
           events={events}
@@ -348,7 +323,6 @@ export default function ScheduleCalendar({
           onSelectEvent={handleSelectEvent}
           onSelectSlot={handleSelectSlot}
         />
-      </div>
-    </div>
+      </>
   );
 }
