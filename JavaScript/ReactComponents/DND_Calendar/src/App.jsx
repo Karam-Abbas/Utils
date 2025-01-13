@@ -11,7 +11,7 @@ const DnDCalendar = withDragAndDrop(Calendar);
 
 export default function ScheduleCalendar({
   color = "light",
-  title = "Scheduler", events= [] ,
+  title = "Scheduler", events= {events} ,
 }) {
   // Events format
   // const [events, setEvents] = useState([
