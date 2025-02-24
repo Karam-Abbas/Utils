@@ -652,3 +652,205 @@ console.log(squared); // [1, 4, 9, 16, 25]
 
 ✅ **Best practice**: Prefer **declarative style** for cleaner, maintainable code!
 
+---
+# DOM Manipulation Cheat Sheet
+
+## 1. Selecting Elements
+
+### `document.getElementById(id)`
+Finds an element by its `id`.
+```js
+let el = document.getElementById("title"); // <h1 id="title">Hello</h1>
+console.log(el.textContent); // "Hello"
+```
+
+### `document.querySelector(selector)`
+Finds the **first** matching element.
+```js
+let el = document.querySelector(".box"); // <div class="box">Box 1</div>
+```
+
+### `document.querySelectorAll(selector)`
+Finds **all** matching elements as a `NodeList`.
+```js
+let els = document.querySelectorAll(".box");
+console.log(els.length); // Number of .box elements
+```
+
+### `document.getElementsByClassName(className)`
+Finds elements by class name.
+```js
+let els = document.getElementsByClassName("box");
+```
+
+### `document.getElementsByTagName(tagName)`
+Finds elements by tag name.
+```js
+let els = document.getElementsByTagName("p");
+```
+
+---
+## 2. Modifying Elements
+
+### `element.textContent`
+Changes or gets text inside an element.
+```js
+document.getElementById("title").textContent = "New Title";
+```
+
+### `element.innerHTML`
+Changes HTML inside an element.
+```js
+document.getElementById("container").innerHTML = "<p>New Content</p>";
+```
+
+### `element.setAttribute(attr, value)`
+Sets an attribute.
+```js
+document.getElementById("link").setAttribute("href", "https://example.com");
+```
+
+### `element.getAttribute(attr)`
+Gets an attribute value.
+```js
+let href = document.getElementById("link").getAttribute("href");
+```
+
+### `element.style.property`
+Changes CSS styles.
+```js
+document.getElementById("box").style.backgroundColor = "red";
+```
+
+---
+## 3. Creating & Removing Elements
+
+### `document.createElement(tagName)`
+Creates a new element.
+```js
+let newDiv = document.createElement("div");
+```
+
+### `parent.appendChild(child)`
+Adds a new child element.
+```js
+document.body.appendChild(newDiv);
+```
+
+### `parent.insertBefore(newElement, referenceElement)`
+Inserts before another element.
+```js
+let parent = document.getElementById("container");
+parent.insertBefore(newDiv, parent.firstChild);
+```
+
+### `parent.removeChild(child)`
+Removes a child element.
+```js
+parent.removeChild(newDiv);
+```
+
+### `element.remove()`
+Removes an element directly.
+```js
+document.getElementById("title").remove();
+```
+
+---
+## 4. Event Handling
+
+### `element.addEventListener(event, callback)`
+Adds an event listener.
+```js
+document.getElementById("btn").addEventListener("click", function() {
+    alert("Button Clicked!");
+});
+```
+
+### `element.removeEventListener(event, callback)`
+Removes an event listener.
+```js
+function sayHello() {
+    alert("Hello!");
+}
+document.getElementById("btn").addEventListener("click", sayHello);
+document.getElementById("btn").removeEventListener("click", sayHello);
+```
+
+---
+## 5. Traversing the DOM
+
+### `element.parentElement`
+Gets the parent of an element.
+```js
+let parent = document.getElementById("child").parentElement;
+```
+
+### `element.children`
+Gets all child elements.
+```js
+let children = document.getElementById("parent").children;
+```
+
+### `element.nextElementSibling`
+Gets the next sibling element.
+```js
+let next = document.getElementById("item1").nextElementSibling;
+```
+
+### `element.previousElementSibling`
+Gets the previous sibling element.
+```js
+let prev = document.getElementById("item2").previousElementSibling;
+```
+
+---
+## 6. Class Manipulation
+
+### `element.classList.add(className)`
+Adds a class.
+```js
+document.getElementById("box").classList.add("highlight");
+```
+
+### `element.classList.remove(className)`
+Removes a class.
+```js
+document.getElementById("box").classList.remove("highlight");
+```
+
+### `element.classList.toggle(className)`
+Toggles a class.
+```js
+document.getElementById("box").classList.toggle("hidden");
+```
+
+### `element.classList.contains(className)`
+Checks if a class exists.
+```js
+if (document.getElementById("box").classList.contains("highlight")) {
+    console.log("Highlighted!");
+}
+```
+
+---
+## 7. Forms & Inputs
+
+### `input.value`
+Gets or sets input values.
+```js
+document.getElementById("name").value = "John Doe";
+```
+
+### `form.submit()`
+Submits a form.
+```js
+document.getElementById("myForm").submit();
+```
+
+### `element.focus()`
+Focuses an input field.
+```js
+document.getElementById("name").focus();
+```
+---
