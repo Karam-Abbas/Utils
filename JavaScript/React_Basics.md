@@ -56,4 +56,74 @@ There are 3 major ways how you can use useEffect.
 
 ![alt text](image.png)
 
-## 
+## useContext
+To make states,variables or callbacks become global, we use this hook. In order to avoid prop drilling (passing the prop from parent to granchild node like the below example)
+```javascript
+function App() {
+  const user = "Karam";
+  return <Parent user={user} />;
+}
+
+function Parent({ user }) {
+  return <Child user={user} />;
+}
+
+function Child({ user }) {
+  return <p>Hello, {user}!</p>;
+}
+// and this become annoying after some time 
+```
+**Solution**
+- Make them global so that all the childs can access it
+- But making global variables is a bad programming practice !
+- It is global but to a limited extent means available to limited components. Let me explain what gibberish, I am talking about.
+  
+**Syntax**
+```javascript
+import React, { useState, useContext, createContext } from "react";
+
+// 1️⃣ Create a Context
+const UserContext = createContext(); // Your Global Bank to store props
+
+function App() {
+  const [fname, setFname] = useState("Karam");
+  const [lname, setLname] = useState("Abbas");
+  return (
+    // 2️⃣ Provide the Context value to all children
+    <UserContext.Provider value={{fname,lname}}>
+      <Parent />
+    </UserContext.Provider>
+    //Puts limit on who can access the context(the global bank)
+    // And the value prop accepts an object which contains the props you want to make global
+    // For one thing         value = {state}
+    // For multiple things   value = {{state1,state2}}
+  );
+}
+
+function Parent() {
+  return <Child />;
+}
+
+function Child() {
+  // 3️⃣ Use the Context value directly
+  const user = useContext(UserContext);
+  return <p>Hello, {user}!</p>;
+  //This is how child can access the props we just made global.
+}
+
+export default App;
+```
+
+**Important Concept**
+State Uplifting is simple, declaring the states in the parent component and then passing it down to child by means of props.
+
+
+
+
+# Complete the remaining of the hooks.......
+
+
+
+# Quick Summary
+
+![alt text](image-1.png)
