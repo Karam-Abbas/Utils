@@ -10,6 +10,12 @@
 
 ## 2. Function Definition and Execution
 
+**Function vs Callback**
+```
+Function: Combination of multiple lines of code.
+Callback: A function passed as a argument is called as a callback.
+```
+
 ```javascript
 function sayHi()
 {
@@ -840,6 +846,11 @@ if (document.getElementById("box").classList.contains("highlight")) {
 Gets or sets input values.
 ```js
 document.getElementById("name").value = "John Doe";
+```
+### `event.target.value`
+Gets the value of the target field which triggered that event.
+```js
+(event)=>console.log(event.target.value);
 ```
 
 ### `form.submit()`
