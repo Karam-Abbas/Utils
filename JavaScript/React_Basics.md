@@ -350,7 +350,9 @@ function Parent() {
 
   const handleClick = () => {
     console.log("Clicked!");
-  }; // gets recreated every time the count changes and a rerender happens. 
+  }; // ❌ gets recreated every time the count changes
+  //  and a rerender happens. 
+
   // the function is very light weight so it doesn't effect much but 
   // as the app goes complex these tiny optimization makes exponential 
   // differences.
@@ -369,7 +371,25 @@ export default Parent;
 
 **Solution**
 ```javascript
+import React, { useState, useCallback } from "react";
+import Child from "./Child";
 
+function Parent() {
+  const [count, setCount] = useState(0);
+
+  // ✅ Cached function - does NOT get recreated on every render
+  const handleClick = useCallback(() => {
+    console.log("Clicked!");
+  }, []);
+
+  return (
+    <div>
+      <Child handleClick={handleClick} />
+      <button onClick={() => setCount(count + 1)}>Increase Count: {count}</button>
+    </div>
+  );
+}
+export default Parent;
 ```
 
 # Quick Summary
