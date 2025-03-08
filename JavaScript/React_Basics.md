@@ -1,5 +1,5 @@
 # React Hooks
-Pieces of code that help usa achieve dynamic rendering in react.
+Pieces of code that help us achieve dynamic rendering in react.
 ## 1. useState( )
 One can say advance form of variables.
 ```javascript
