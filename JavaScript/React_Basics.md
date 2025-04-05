@@ -394,3 +394,30 @@ export default Parent;
 
 # Quick Summary
 ![alt text](image-1.png)
+<<<<<<< Updated upstream
+=======
+
+# React Props
+## Function as a Prop
+Always pass the functional prop in a wrapper callback like this:
+```javascript
+<Person
+            n={obj.name}
+            a={obj.age}
+            y={obj.isYoung}
+            clicked={()=>btnHandler2("Hashir")}
+/>
+```
+And in order to make this function run you need to do the following:
+
+```javascript
+return (
+       <div>
+            <p onClick={props.clicked}>Hi! my name is {props.n} and I'm {props.a} years old</p>
+            <input type="text" value={props.n}></input>
+        </div>
+    );
+```
+Whenever you will click on P tag the function will be called automatically.
+
+>>>>>>> Stashed changes
