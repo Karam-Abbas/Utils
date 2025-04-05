@@ -394,8 +394,7 @@ export default Parent;
 
 # Quick Summary
 ![alt text](image-1.png)
-<<<<<<< Updated upstream
-=======
+
 
 # React Props
 ## Function as a Prop
@@ -419,5 +418,3 @@ return (
     );
 ```
 Whenever you will click on P tag the function will be called automatically.
-
->>>>>>> Stashed changes
