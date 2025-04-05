@@ -418,3 +418,35 @@ return (
     );
 ```
 Whenever you will click on P tag the function will be called automatically.
+
+## Two Way Binding
+Simplest explanation for this is when you bind an input field with a state such that when state changes the value of input field changes, and when the input field changes it changes the state too. This is known as "two way binding".
+```javascript
+import React, { useState } from 'react';
+
+function TwoWayBindingExample() {
+  const [text, setText] = useState('');
+
+  return (
+    <div>
+      <input 
+        type="text" 
+        value={text} 
+        onChange={(e) => setText(e.target.value)} 
+      />
+      <p>You typed: {text}</p>
+    </div>
+  );
+}
+
+export default TwoWayBindingExample;
+```
+Any change in the input field triggers the callback and the value stored in the state changes. (Forward bind // just an analogy made by me don't know if this term exist).
+
+And as the value of input field is dependent on the the state, when the state got updated, it makes a rerender and updates the value of the input field. (backward bind // just an analogy made by me don't know if this term exist)
+
+forward bind : change in input => onChange Callback => state changed
+
+backward bind : change in state => re render => input field value updated as per state.
+
+2-way bind : forward bind + backward bind
