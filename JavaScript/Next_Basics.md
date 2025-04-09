@@ -105,6 +105,69 @@ then react.query will return the following object.
 }
 ```
 
+## Custom Pages for different error codes
 
+Just make a folder of that code in the pages directory make an index file in it, customize it and it will automatically now navigate to it like :
 
+```
+pages/
+  ├── products/
+  │   └── [id]/
+  │       └── [name]/
+  │           └── [...slug]/
+  │               └── index.js
+  ├── 404/
+  |   └── index.js 
+```
 
+the wrong URL whose page won't exist will render the new our created 404 page.
+
+## Navigation with LINK component
+Links are used to render a specific component by changing the URL.
+
+```javascript
+<Link href="/product/1">Link</Link>
+```
+when you will click on this, it will render the product page on the main page by changing the url, which than handles the rerender itself.
+
+### Some Complex use Case Example:
+
+```javascript
+const arr = ["marry", "ana"];
+return (
+  <>
+    <div>This is the Admin page!</div>
+    {arr.map((person, index) => (
+      <Link key={index} href={'/admin/' + person}>{person}</Link>
+    ))}
+  </>
+)
+```
+
+This will redirect it to the dynamic links i had created, with dynamic routes, so it will handle it smoothly.
+
+## Navigating Programmatically
+The main difference between these 2 is that this is 
+imperative (Fine grain control) approach and LINK is the Declarative (better readability) approach functioning of both are same.
+
+```javascript
+import { useRouter } from 'next/router'
+import React from 'react'
+
+const index = () => {
+    const router = useRouter();
+    const click=()=>{
+        router.push("/test");
+    }
+  return (
+    <>
+    <div>so you are {router.query.id}</div>
+    <button onClick={click}>Back</button>
+    </>
+  )
+}
+
+export default index
+```
+onClick it will redirect to the test page and that's it.
+While LINK can always be a button, the router.push() technique can be used on any event to redirect either on completion of something or anything while on the other hand you have to click in the LINK to make it work.
