@@ -171,3 +171,4 @@ export default index
 ```
 onClick it will redirect to the test page and that's it.
 While LINK can always be a button, the router.push() technique can be used on any event to redirect either on completion of something or anything while on the other hand you have to click in the LINK to make it work.
+
