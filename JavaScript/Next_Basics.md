@@ -1,4 +1,6 @@
-# Axios
+# NEXT.js Notes
+But some important things first.
+## Axios
 We use axios to make requests to an API, it can be either get,post,put,update or delete request.
 generally we use get and post the most.
 ```javascript
