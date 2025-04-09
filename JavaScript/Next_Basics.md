@@ -60,5 +60,51 @@ export default function Home() {
   );
 }
 ```
+## Routing in NEXT
+
+### Dynamic Routes
+The type in which the url is not hard coded like in the below example '/products/' is the static part while all the other part is dynamic as it can handle anything we throw at it via URL.
+
+### Basic Structure
+```
+pages/
+  ├── products/
+  │   └── [id]/
+  │       └── [name]/
+  │           └── [...slug]/
+  │               └── index.js
+```
+
+### Concepts Used
+
+1. **Dynamic Route Segments**
+   - `[id]` - Single dynamic segment
+   - `[name]` - Nested dynamic segment
+   - `[...slug]` - Catch-all routes (can capture multiple segments)
+
+2. **Router Object**
+   ```javascript
+   const router = useRouter()
+   ```
+   Used to access:
+   - Query parameters
+   - Route information
+   - Navigation methods
+
+3. **Query Parameters**
+   ```javascript
+   const obj = router.query
+   ```
+Returns an object containing the key value pairs of all the data we passed via URL for instance if the entered URL is: /products/1/laptop/detail/specs/price
+then react.query will return the following object.
+```javascript
+{
+    id : 1,
+    name : 'Karam',
+    slug : ['detail', 'spec','price']
+}
+```
+
+
 
 
