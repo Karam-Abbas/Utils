@@ -214,7 +214,7 @@ Cons:
 - BAD SEO, crawlers can't read data.
 - Load on the client side => Slows Renders.
 
-Example: Nothing fancy.
+**Example:** Nothing fancy.
 
 ```javascript
 const App = () => {
@@ -236,7 +236,42 @@ Cons:
 - Data changes will not be visible until the whole project is rebuilt.
 - Don't work for frequently changing pages.
 
-Example:
+**Example:**
+```javascript
+import axios from 'axios';
+
+const App = (props) => {
+  return (
+    <div>
+      {props.data.map((item, index) => (
+        <div key={index}>
+          <div>{item.id}</div>
+          <div>{item.name}</div>
+          <div>{item.description}</div>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+export async function getStaticProps() {
+  const res = await axios.get('url-data');
+  return {
+    props: {
+      data: res.data,
+    },
+  };
+}
+
+export default App;
+```
+The data from the url's response at the time of built will be stored and will not change until the project is rebuilt in this case.
+
+### 3. Incremental Static Rendering (ISR)
+
+This type of rendering is the very similar to the SSG but with an add on that all the pages are stored after the built on the server has a timeframe after which it gets automatically updated without rebuilding it again.
+
+**Example:** The exact same code of SSG but with just a tiny change in the getStaticProp function's return.
 
 ```javascript
 import axios from 'axios';
@@ -255,16 +290,156 @@ const App = (props) => {
   );
 };
 
-export async function getStaticProps(context) {
-  let res = '';
-  await axios.get('url-data').then(response => (res = response));
+export async function getStaticProps() {
+  const res = await axios.get('url-data');
   return {
     props: {
       data: res.data,
     },
+    revalidate: 60 // after every 60 seconds re-fetches the data from the api
   };
 }
-
-export default App;
 ```
-The data from the url's response at the time of built will be stored and will not change until the project is rebuilt in this case.
+
+### 4. Server Side Rendering (SSR)
+
+In this type the pages are not pregenerated at built time and saved statically at the server, instead when a request from the client is received by the server, the server generates that page and then sends that page to the client ensuring up-to-date data while reducing the load from client, its not faster than the SSG/ISR but the data is latest.
+
+**Example:** 
+
+```javascript
+const App=(props)=>{
+  return(
+    <>
+    <div>{props.data.id}</div>
+    <div>{props.data.name}</div>
+    <div>{props.data.desc}</div>
+    </>
+  )
+}
+
+export async function getServerSideProps(context){
+  // context works like useRouter() here
+  // you can't use any static data directly 
+  // in the component rather fetch it here 
+  // and pass it to the component as prop
+  const {id,user} = context.params; 
+  // say url was : products/[id]/[user]
+  const res = await axios.post('url',{id,user});
+  return {
+    props:{
+      data:res.data
+    }
+  }
+}
+```
+## Rendering Functions
+
+We majorly use the below 3 functions 
+
+```
+Functions
+  |- getServerSideProps(context)
+  |- getStaticProps()
+  |- getStaticPaths()
+```
+Below is a view of how the rendering functions are used with the rendering techniques.
+
+### getServerSideProps(context)
+
+```javascript
+export async function getServerSideProps(context) {
+  // Fetch the details of the specific blog post on every request (SSR)
+  const {id} = context.params;
+  const res = await fetch(`https://api.example.com/posts/${id}`);
+  const post = await res.json();
+
+  // Handle post not found
+  if (!post) {
+    return {
+      notFound: true, // Return 404 page if post doesn't exist
+    };
+  }
+
+  // Redirect to another page if needed (for example, if the post is archived)
+  if (post.archived) {
+    return {
+      redirect: {
+        destination: '/archive', // Redirect to an archive page
+        permanent: false,         // This is a temporary redirect
+      },
+    };
+  }
+
+  // Return the post data as props
+  return {
+    props: { post },
+  };
+}
+```
+### getStaticProps(context)
+
+This function has same params like getServerSideProps,the only difference is in its execution it runs once while build time for SSG/ISR while getServerSideProps runs with every request from the client.
+```javascript
+export async function getStaticProps(context) {
+  const {id} = context.params;
+  const res = await fetch(`https://api.example.com/posts/${id}`);
+  const post = await res.json();
+
+  // Handle post not found
+  if (!post) {
+    return {
+      notFound: true, // Return 404 page if post doesn't exist
+    };
+  }
+
+  if (post.archived) {
+    return {
+      redirect: {
+        destination: '/archive', // Redirect to an archive page
+        permanent: false,         // This is a temporary redirect
+      },
+    };
+  }
+
+  // Return the post data as props
+  return {
+    props: { post },
+  };
+}
+```
+
+### getStaticPaths( )
+
+The purpose of this function is to define the pages out of all the dynamic pages in case of SSG/ISR to pre-render because in dynamic case these techniques pre-render and save those pages and if there are 1000 products if this function is not used they will try to pre-render 1000 pages and save them, which is undesirable we might want to only pre-render top 25 product pages, that where this function helps us to do these kind of things.
+
+```javascript
+export async function getStaticPaths() {
+  // Fetch a list of posts (e.g., from an API or database)
+  const res = await fetch('https://api.example.com/posts');
+  const posts = await res.json();
+
+  // Generate an array of paths for each post to be pre-rendered
+  const paths = posts.map(post => ({
+    params: { id: post.id.toString() }, // Dynamic route parameter
+  }));
+
+  return {
+    paths, // array of params [{params:{id:1},{params:{id:2}}}]
+    fallback: 'blocking',  // Block until the page is generated for new paths
+    // fallback - true : Allow ungenerated pages to built on demand. need to add loading else it will throw 404 not found.
+    // fallback - false : only generate the paths in the paths[],
+    // if anything else is accessed it will give a 404 error.
+    // fallback - 'blocking' : No need of using loading, it waits until the page is fully generated and then serve it.
+  };
+}
+```
+
+**Conclusion**
+| Functions | Static | Dynamic |
+|----------|----------|----------|
+| SSG    | getServerSideProps(context)     | Nothing Else     |
+| ISR    | getStaticProps(context)    | getStaticProps(context) + getStaticPaths( )+fallback    |
+| SSR    | getStaticProps(context) + revalidate    | getStaticProps(context) + getStaticPaths( )+fallback     |
+
+
