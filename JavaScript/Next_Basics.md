@@ -115,7 +115,7 @@ pages/
 ```javascript
 {
     id : 1,
-    name : 'Karam',
+    name : 'laptop',
     slug : ['detail', 'spec','price']
 }
 ```
